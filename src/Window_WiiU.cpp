@@ -319,9 +319,10 @@ static void ProcessVPAD(float delta) {
 	VPADRead(VPAD_CHAN_0, &vpadStatus, 1, &error);
 	if (error != VPAD_READ_SUCCESS) return;
 	
-	VPADGetTPCalibratedPoint(VPAD_CHAN_0, &vpadStatus.tpNormal, &vpadStatus.tpNormal);
-	ProcessVpadButtons(0, vpadStatus.hold);
-	ProcessVpadTouch(&vpadStatus.tpNormal);
+	VPADTouchData tpCalib;
+	VPADGetTPCalibratedPoint(VPAD_CHAN_0, &tpCalib, &vpadStatus.tpNormal);
+    ProcessVpadButtons(0, vpadStatus.hold);
+    ProcessVpadTouch(&tpCalib);
 	
 	ProcessVpadStick(0, PAD_AXIS_LEFT,  vpadStatus.leftStick.x,  vpadStatus.leftStick.y,  delta);
 	ProcessVpadStick(0, PAD_AXIS_RIGHT, vpadStatus.rightStick.x, vpadStatus.rightStick.y, delta);
